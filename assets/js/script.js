@@ -56,7 +56,6 @@ function getDrink() {
 };
 
 function displayDrinkCard(drink) {
-    console.log(drink);
     drinkCardEl.innerHTML = "";
     drinkCardEl.classList.remove("is-hidden");
 
@@ -81,7 +80,7 @@ function displayDrinkCard(drink) {
     // Pull the Measurements from the drink object
     var ingredients = document.createElement("div");
     ingredients.innerHTML = "";
-    ingredients.classList = "content";
+    ingredients.classList = "content column";
     ingredients.innerHTML = "<strong>Ingredients: </strong>"
 
     for (var i = 1; i < 16; i++) {
@@ -100,14 +99,13 @@ function displayDrinkCard(drink) {
             }
             
             var ingredientEl = document.createElement("p");
-            ingredientEl.textContent =
+            ingredientEl.classList = "mt-1 ml-2";
+            ingredientEl.innerHTML =
                 measurement + " " + drink[ingredientString];
 
             ingredients.appendChild(ingredientEl);
         }
     };
-
-    
 
     // Pull the Instructions from the drink object
     var instructionsEl = document.createElement("p");
