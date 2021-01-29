@@ -2,6 +2,8 @@ var ingredientFormEl = document.querySelector("#ingredient-form");
 var ingredientInputEl = document.querySelector("#entered-ingredient");
 var drinkListEl = document.querySelector("#list-of-drinks");
 
+var drinkCardEl = document.querySelector("#drink-card");
+
 // get list of drinks from user entered ingredient
 
 function getDrinkList(ingredient) {
@@ -33,13 +35,13 @@ function displayDrinkList(drinkList) {
         var drinkEl = document.createElement("div");
         drinkEl.classList.add("panel-block");
         drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
-        drinkEl.addEventListener("click", displayDrink);
+        drinkEl.addEventListener("click", getDrink);
         drinkEl.textContent = DRINKS[i].strDrink;
         drinkListEl.appendChild(drinkEl);
     }
 };
 
-function displayDrink() {
+function getDrink() {
     var id = this.getAttribute("data-drink-id");
 
     var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id;
@@ -47,10 +49,27 @@ function displayDrink() {
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
+                displayDrinkCard(data.drinks[0]);
             });
         }
     });
+};
+
+function displayDrinkCard(drink) {
+    console.log(drink);
+    drinkCardEl.innerHTML = "";
+
+    var headerEl = document.createElement("h2");
+    headerEl.textContent = drink.strDrink;
+    headerEl.classList = "card-header-title card-header"
+
+    var imageEl = document.createElement("img");
+    imageEl.setAttribute("src",drink.strDrinkThumb);
+    imageEl.classList = "card-image"
+
+    drinkCardEl.appendChild(headerEl);
+    drinkCardEl.appendChild(imageEl);
+    
 };
 
 
