@@ -101,10 +101,18 @@ function displayDrinkCard(drink) {
     };
 
     // Pull the Instructions from the drink object
+    var instructions = document.createElement("div");
+    instructions.innerHTML = "";
+    var instructionsEl = document.createElement("p");
+    instructionsEl.textContent = "Instructions: " + drink.strInstructions;
 
+    instructions.appendChild(instructionsEl);
+
+    // Display elements to the screen
     drinkCardEl.appendChild(headerEl);
     drinkCardEl.appendChild(imageEl);
     drinkCardEl.appendChild(ingredients);
+    drinkCardEl.appendChild(instructions);
 
 };
 
