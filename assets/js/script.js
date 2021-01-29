@@ -79,7 +79,7 @@ function displayDrinkCard(drink) {
 
     // Pull the Ingredients from the drink object
     // Pull the Measurements from the drink object
-    var ingredients = document.createElement("ul");
+    var ingredients = document.createElement("div");
     ingredients.innerHTML = "";
     ingredients.classList = "content";
     ingredients.innerHTML = "<strong>Ingredients: </strong>"
@@ -99,7 +99,7 @@ function displayDrinkCard(drink) {
                 measurement = drink[measurementString];
             }
             
-            var ingredientEl = document.createElement("li");
+            var ingredientEl = document.createElement("p");
             ingredientEl.textContent =
                 measurement + " " + drink[ingredientString];
 
@@ -111,7 +111,7 @@ function displayDrinkCard(drink) {
 
     // Pull the Instructions from the drink object
     var instructionsEl = document.createElement("p");
-    instructionsEl.textContent = "Instructions: " + drink.strInstructions;
+    instructionsEl.innerHTML = "<strong>Instructions: </strong>" + drink.strInstructions;
 
     ingredients.appendChild(instructionsEl);
 
