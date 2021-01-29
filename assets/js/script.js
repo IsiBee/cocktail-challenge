@@ -67,22 +67,34 @@ function displayDrinkCard(drink) {
 
     // Pulls the Image of the drink from the drink object
     var imageEl = document.createElement("img");
-    imageEl.setAttribute("src",drink.strDrinkThumb);
-    imageEl.setAttribute("width","400px");
+    imageEl.setAttribute("src", drink.strDrinkThumb);
+    imageEl.setAttribute("width", "400px");
     imageEl.classList = "card-content card-image image";
 
     // Pull the Ingredients from the drink object
+    // Pull the Measurements from the drink object
     var ingredients = document.createElement("div");
     ingredients.innerHTML = "";
     ingredients.textContent = "Ingredients: "
-    for(var i=1; i < 16; i++){
+
+    for (var i = 1; i < 16; i++) {
         var ingredientString = "strIngredient" + i.toString();
-        if(!(drink[ingredientString])){
+        var measurementString = "strMeasure" + i.toString();
+        if (!(drink[ingredientString] || drink[measurementString])) {
             break;
         }
-        else{
+        else {
+            var measurement = "";
+            if(!drink[measurementString]){
+                measurement = "";
+            }
+            else{
+                measurement = drink[measurementString];
+            }
+            
             var ingredientEl = document.createElement("p");
-            ingredientEl.textContent = drink[ingredientString];
+            ingredientEl.textContent =
+                measurement + " " + drink[ingredientString];
 
             ingredients.appendChild(ingredientEl);
         }
@@ -93,7 +105,7 @@ function displayDrinkCard(drink) {
     drinkCardEl.appendChild(headerEl);
     drinkCardEl.appendChild(imageEl);
     drinkCardEl.appendChild(ingredients);
-    
+
 };
 
 
