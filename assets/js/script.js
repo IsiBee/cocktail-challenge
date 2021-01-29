@@ -85,13 +85,13 @@ function displayDrinkCard(drink) {
         }
         else {
             var measurement = "";
-            if(!drink[measurementString]){
+            if (!drink[measurementString]) {
                 measurement = "";
             }
-            else{
+            else {
                 measurement = drink[measurementString];
             }
-            
+
             var ingredientEl = document.createElement("p");
             ingredientEl.textContent =
                 measurement + " " + drink[ingredientString];
@@ -108,11 +108,30 @@ function displayDrinkCard(drink) {
 
     instructions.appendChild(instructionsEl);
 
+    // Fetch Wiki Data
+    var wikiLink = document.createElement("div");
+    wikiLink.innerHTML = "";
+    var drinkName = drink.strDrink;
+    var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit=5&gsrsearch=" + drinkName;
+    var wikiLinkEl = document.createElement("p");
+
+    fetch(apiUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                console.log(data);
+                wikiLinkEl.innerHTML = data.query.pages[0].title;
+            });
+        }
+    });
+
+    wikiLink.appendChild(wikiLinkEl);
+
     // Display elements to the screen
     drinkCardEl.appendChild(headerEl);
     drinkCardEl.appendChild(imageEl);
     drinkCardEl.appendChild(ingredients);
     drinkCardEl.appendChild(instructions);
+    drinkCardEl.appendChild(wikiLink);
 
 };
 
