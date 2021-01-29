@@ -58,17 +58,41 @@ function getDrink() {
 function displayDrinkCard(drink) {
     console.log(drink);
     drinkCardEl.innerHTML = "";
+    drinkCardEl.classList.remove("is-hidden");
 
-    var headerEl = document.createElement("h2");
+    // Pulls the name of the drink from the drink object
+    var headerEl = document.createElement("div");
     headerEl.textContent = drink.strDrink;
     headerEl.classList = "card-header-title card-header"
 
+    // Pulls the Image of the drink from the drink object
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src",drink.strDrinkThumb);
-    imageEl.classList = "card-image"
+    imageEl.setAttribute("width","400px");
+    imageEl.classList = "card-content card-image image";
+
+    // Pull the Ingredients from the drink object
+    var ingredients = document.createElement("div");
+    ingredients.innerHTML = "";
+    ingredients.textContent = "Ingredients: "
+    for(var i=1; i < 16; i++){
+        var ingredientString = "strIngredient" + i.toString();
+        if(!(drink[ingredientString])){
+            break;
+        }
+        else{
+            var ingredientEl = document.createElement("p");
+            ingredientEl.textContent = drink[ingredientString];
+
+            ingredients.appendChild(ingredientEl);
+        }
+    };
+
+    // Pull the Instructions from the drink object
 
     drinkCardEl.appendChild(headerEl);
     drinkCardEl.appendChild(imageEl);
+    drinkCardEl.appendChild(ingredients);
     
 };
 
