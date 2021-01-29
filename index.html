@@ -25,20 +25,24 @@
                 <form class="panel" id="ingredient-form">
                     <div class="panel-block">
                         <p class="control has-icons-left">
-                            <input id="entered-ingredient" class="input is-info" type="text" placeholder="Search">
+                            <input id="entered-ingredient" class="input is-info modal-button" data-target = "#modal" type="text" placeholder="Search">
                             <span class="icon is-left">
                                 <i class="fas fa-search" aria-hidden="true"></i>
                             </span>
                         </p>
                     </div>
+                    <div id="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            Not Valid Ingredient!
+                        </div>
+                        <button class="modal-close is-large" aria-label="close"></button>
+                      </div>
                     <div id="list-of-drinks"></div>
                 </form>
             </div>
             <div class="column is-two-thirds"></div>
         </div>
-
-
-
         </div>
     </section>
 
