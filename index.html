@@ -9,41 +9,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylsheet" href="./assets/css/style.css" />
     <!-- <link rel="stylesheet" href="./assets/css/demo.css" /> -->
-    <title>Cocktail Picker [TO BE CHANGED]</title>
+    <title>Happy Hour</title>
 </head>
 
 <body>
-    <div class="container is-max-widescreen">
-        <div class="notification is-primary">
-            <strong>Cocktail Pickers</strong>
+    <div class="container tile is-ancestor">
+        <div class="notification is-warning tile is-6 has-text-warning-dark">
+            <strong>Welcome to Happy Hour</strong>
         </div>
     </div>
 
-    <section class="container is-max-widescreen">
-        <div class="columns">
-            <div class="column is-one-third">
+    <section class="container tile is-ancestor">
+        <div class="columns tile is-parent">
+            <div class="column is-one-third tile is-child">
                 <form class="panel" id="ingredient-form">
                     <div class="panel-block">
-                        <p class="control has-icons-left">
-                            <input id="entered-ingredient" class="input is-info" type="text" placeholder="Search">
+                        <div class="control has-icons-left">
+                            <input id="entered-ingredient" class="input is-info" type="text"
+                                placeholder="Enter Ingredient">
                             <span class="icon is-left">
                                 <i class="fas fa-search" aria-hidden="true"></i>
                             </span>
-                        </p>
+                        </div>
+                        <div>
+                            <button class="button is-warning is-light" type="submit">Search</button>
+                        </div>
                     </div>
                     <div id="list-of-drinks"></div>
                 </form>
             </div>
             <div class="column is-two-thirds"></div>
         </div>
-
-
-
-        </div>
     </section>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 
