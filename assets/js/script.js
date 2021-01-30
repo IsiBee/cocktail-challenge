@@ -112,14 +112,15 @@ function displayDrinkCard(drink) {
     var wikiLink = document.createElement("div");
     wikiLink.innerHTML = "";
     var drinkName = drink.strDrink;
-    var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit=5&gsrsearch=" + drinkName;
+    console.log(drinkName);
+    var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&gsrnamespace=0&gsrlimit=1&srsearch="+ drinkName;
     var wikiLinkEl = document.createElement("p");
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
                 console.log(data);
-                wikiLinkEl.innerHTML = data.query.pages[0].title;
+                wikiLinkEl.innerHTML = "Wikipedia Link: " + data.query.search[0].title;
             });
         }
     });
