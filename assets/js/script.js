@@ -34,10 +34,12 @@ function displayDrinkList(drinkList) {
         // create list element to hold the drink name
         var drinkEl = document.createElement("div");
         drinkEl.classList.add("panel-block");
-        drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
-        drinkEl.addEventListener("click", getDrink);
+
         drinkEl.textContent = DRINKS[i].strDrink;
         drinkListEl.appendChild(drinkEl);
+
+        drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
+        drinkEl.addEventListener("click", getDrink);
     }
 };
 
