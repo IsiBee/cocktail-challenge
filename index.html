@@ -4,32 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <script src="https://kit.fontawesome.com/ca89a4b9f5.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylsheet" href="./assets/css/style.css" />
-    <!-- <link rel="stylesheet" href="./assets/css/demo.css" /> -->
-    <title>Cocktail Picker [TO BE CHANGED]</title>
+    <link rel="stylsheet" type="text/css" href="./assets/css/style.css" />
+    <title>Happy Hour</title>
 </head>
 
 <body>
-    <div class="container is-max-widescreen">
-        <div class="notification is-primary">
-            <strong>Cocktail Pickers</strong>
-        </div>
-    </div>
+    <header class="tile is-ancestor">
+        <div class="tile is-4 is-vertical is-parent">
+            <div class="tile is-child px-5 mt-2 notification is-warning has-text-warning-dark">
+                <p class="title">Welcome to Happy Hour</p>
+                <p>Make the most of the liquor in your cabinet and those virtual happy hours. Impress your team with
+                    information about your newfound cocktail.</p>
+            </div>
+    </header>
 
-    <section class="container is-max-widescreen">
-        <div class="columns">
-            <div class="column is-one-third">
+    <section class="container tile is-ancestor">
+        <div class="columns tile is-parent">
+            <div class="column is-one-third tile is-child">
                 <form class="panel" id="ingredient-form">
                     <div class="panel-block">
-                        <p class="control has-icons-left">
-                            <input id="entered-ingredient" class="input is-info modal-button" data-target = "#modal" type="text" placeholder="Search">
+                        <div class="control has-icons-left">
+                            <input id="entered-ingredient" class="input is-info" type="text"
+                                placeholder="Enter Ingredient">
                             <span class="icon is-left">
                                 <i class="fas fa-search" aria-hidden="true"></i>
                             </span>
-                        </p>
+                        </div>
+                        <div>
+                            <button class="button is-warning is-light" type="submit">Search</button>
+                        </div>
                     </div>
                     <div id="modal">
                         <div class="modal-background"></div>
@@ -41,13 +45,14 @@
                     <div id="list-of-drinks"></div>
                 </form>
             </div>
-            <div class="column is-two-thirds"></div>
-        </div>
+            <div class="column is-two-thirds" style="position: relative;">
+                <div id="drink-card" class="card is-hidden" style="position:fixed;">
+                </div>
+            </div>
         </div>
     </section>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/ca89a4b9f5.js" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 
