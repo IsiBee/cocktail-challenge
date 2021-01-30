@@ -34,10 +34,12 @@ function displayDrinkList(drinkList) {
         // create list element to hold the drink name
         var drinkEl = document.createElement("div");
         drinkEl.classList.add("panel-block");
-        drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
-        drinkEl.addEventListener("click", getDrink);
+
         drinkEl.textContent = DRINKS[i].strDrink;
         drinkListEl.appendChild(drinkEl);
+
+        drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
+        drinkEl.addEventListener("click", getDrink);
     }
 };
 
@@ -56,7 +58,6 @@ function getDrink() {
 };
 
 function displayDrinkCard(drink) {
-    console.log(drink);
     drinkCardEl.innerHTML = "";
     drinkCardEl.classList.remove("is-hidden");
 
@@ -65,17 +66,24 @@ function displayDrinkCard(drink) {
     headerEl.textContent = drink.strDrink;
     headerEl.classList = "card-header-title card-header"
 
+    // Create card content div element
+    var recipeEl = document.createElement("div");
+    recipeEl.classList = "card-content columns";
+
     // Pulls the Image of the drink from the drink object
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
     imageEl.setAttribute("width", "400px");
-    imageEl.classList = "card-content card-image image";
+    imageEl.classList = "content card-image image column is-one-third";
+
+    recipeEl.appendChild(imageEl);
 
     // Pull the Ingredients from the drink object
     // Pull the Measurements from the drink object
     var ingredients = document.createElement("div");
     ingredients.innerHTML = "";
-    ingredients.textContent = "Ingredients: "
+    ingredients.classList = "content column";
+    ingredients.innerHTML = "<strong>Ingredients: </strong>"
 
     for (var i = 1; i < 16; i++) {
         var ingredientString = "strIngredient" + i.toString();
@@ -93,7 +101,8 @@ function displayDrinkCard(drink) {
             }
 
             var ingredientEl = document.createElement("p");
-            ingredientEl.textContent =
+            ingredientEl.classList = "mt-1 ml-2";
+            ingredientEl.innerHTML =
                 measurement + " " + drink[ingredientString];
 
             ingredients.appendChild(ingredientEl);
@@ -101,12 +110,10 @@ function displayDrinkCard(drink) {
     };
 
     // Pull the Instructions from the drink object
-    var instructions = document.createElement("div");
-    instructions.innerHTML = "";
     var instructionsEl = document.createElement("p");
-    instructionsEl.textContent = "Instructions: " + drink.strInstructions;
+    instructionsEl.innerHTML = "<strong>Instructions: </strong>" + drink.strInstructions;
 
-    instructions.appendChild(instructionsEl);
+    ingredients.appendChild(instructionsEl);
 
     // Fetch Wiki Data
     var wikiLink = document.createElement("div");
@@ -127,13 +134,13 @@ function displayDrinkCard(drink) {
     });
 
     wikiLink.appendChild(wikiLinkEl);
+    ingredients.appendChild(wikiLink);
 
     // Display elements to the screen
+    recipeEl.appendChild(ingredients);
+    // Display elements to the screen
     drinkCardEl.appendChild(headerEl);
-    drinkCardEl.appendChild(imageEl);
-    drinkCardEl.appendChild(ingredients);
-    drinkCardEl.appendChild(instructions);
-    drinkCardEl.appendChild(wikiLink);
+    drinkCardEl.appendChild(recipeEl);
 
 };
 
