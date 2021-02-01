@@ -19,9 +19,9 @@ function getDrinkList(ingredient) {
             console.log("Error");
         }
     })
-        .catch(
+        .catch(function(error){
             console.log("Error")
-        );
+        });
 
 };
 
@@ -34,6 +34,7 @@ function displayDrinkList(drinkList) {
         // create list element to hold the drink name
         var drinkEl = document.createElement("div");
         drinkEl.classList.add("panel-block");
+        drinkEl.classList.add("hover-color");
 
         drinkEl.textContent = DRINKS[i].strDrink;
         drinkListEl.appendChild(drinkEl);
@@ -74,7 +75,7 @@ function displayDrinkCard(drink) {
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
     imageEl.setAttribute("width", "400px");
-    imageEl.classList = "content card-image image column is-one-third";
+    imageEl.classList = "content card-image image column is-one-third is-hidden-mobile";
 
     recipeEl.appendChild(imageEl);
 
@@ -119,16 +120,15 @@ function displayDrinkCard(drink) {
     var wikiLink = document.createElement("div");
     wikiLink.innerHTML = "";
     var drinkName = drink.strDrink;
-    console.log(drinkName);
     var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&gsrnamespace=0&gsrlimit=1&srsearch="+ drinkName;
     var wikiLinkEl = document.createElement("a");
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
                 wikiLinkEl.innerHTML = "Wikipedia Link: " + data.query.search[0].title;
                 wikiLinkEl.setAttribute('href', "https://en.wikipedia.org/wiki/" + data.query.search[0].title);
+                wikiLinkEl.setAttribute("target","_blank");
             });
         }
     });
