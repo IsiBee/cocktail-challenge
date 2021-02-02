@@ -15,7 +15,7 @@ function getDrinkList(ingredient) {
         .then(displayDrinkList)
         .catch(function (err) {
             console.log("Error");
-            
+
         });
 };
 
@@ -45,7 +45,7 @@ function displayDrinkList(drinkList) {
 };
 
 
-
+// Fetches data for clicked drink
 function getDrink() {
     var id = this.getAttribute("data-drink-id");
 
@@ -60,6 +60,7 @@ function getDrink() {
     });
 };
 
+// Displays drink card for selected drink
 function displayDrinkCard(drink) {
     drinkCardEl.innerHTML = "";
     drinkCardEl.classList.remove("is-hidden");
@@ -137,6 +138,27 @@ function displayDrinkCard(drink) {
 
     wikiLink.appendChild(wikiLinkEl);
     ingredients.appendChild(wikiLink);
+
+    // Saves drink name to local storage
+    function saveDrink() {
+        var save2Test = localStorage.getItem("savedDrink_2");
+        if (save2Test != undefined) {
+            localStorage.setItem("savedDrink_3", save2Test);
+        }
+        var save1Test = localStorage.getItem("savedDrink_1");
+        if (save1Test != undefined) {
+            localStorage.setItem("savedDrink_2", save1Test);
+        }
+        localStorage.setItem("savedDrink_1", drink.strDrink);
+    };
+
+    // create and add save button
+    var saveBtn = document.createElement("button");
+    saveBtn.innerHTML = "Save Drink";
+    saveBtn.classList.add("saveBtn");
+    ingredients.appendChild(saveBtn);
+
+    saveBtn.addEventListener("click", saveDrink);
 
     // Display elements to the screen
     recipeEl.appendChild(ingredients);
