@@ -1,28 +1,22 @@
 var ingredientFormEl = document.querySelector("#ingredient-form");
 var ingredientInputEl = document.querySelector("#entered-ingredient");
 var drinkListEl = document.querySelector("#list-of-drinks");
-
 var drinkCardEl = document.querySelector("#drink-card");
 
+var errorEl = document.querySelector("#error");
+
 // get list of drinks from user entered ingredient
+
 
 function getDrinkList(ingredient) {
     var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + ingredient;
 
-    fetch(apiUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                displayDrinkList(data);
-            });
-        }
-        else {
+    $.get(apiUrl)
+        .then(displayDrinkList)
+        .catch(function (err) {
             console.log("Error");
-        }
-    })
-        .catch(function(error){
-            console.log("Error")
+            
         });
-
 };
 
 // Display list of drinks to the page
@@ -30,19 +24,27 @@ function displayDrinkList(drinkList) {
     DRINKS = drinkList.drinks;
     drinkListEl.textContent = "";
 
-    for (var i = 0; i < DRINKS.length; i++) {
-        // create list element to hold the drink name
-        var drinkEl = document.createElement("div");
-        drinkEl.classList.add("panel-block");
-        drinkEl.classList.add("hover-color");
+    if (!drinkList) {
+        errorEl.textContent = "Please enter a valid Ingredient.";
+    }
 
-        drinkEl.textContent = DRINKS[i].strDrink;
-        drinkListEl.appendChild(drinkEl);
+    else {
+        for (var i = 0; i < DRINKS.length; i++) {
+            // create list element to hold the drink name
+            var drinkEl = document.createElement("div");
+            drinkEl.classList.add("panel-block");
+            drinkEl.classList.add("hover-color");
 
-        drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
-        drinkEl.addEventListener("click", getDrink);
+            drinkEl.textContent = DRINKS[i].strDrink;
+
+            drinkListEl.appendChild(drinkEl);
+            drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
+            drinkEl.addEventListener("click", getDrink);
+        }
     }
 };
+
+
 
 function getDrink() {
     var id = this.getAttribute("data-drink-id");
@@ -108,7 +110,7 @@ function displayDrinkCard(drink) {
 
             ingredients.appendChild(ingredientEl);
         }
-    };
+    }
 
     // Pull the Instructions from the drink object
     var instructionsEl = document.createElement("p");
@@ -120,7 +122,7 @@ function displayDrinkCard(drink) {
     var wikiLink = document.createElement("div");
     wikiLink.innerHTML = "";
     var drinkName = drink.strDrink;
-    var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&gsrnamespace=0&gsrlimit=1&srsearch="+ drinkName;
+    var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&gsrnamespace=0&gsrlimit=1&srsearch=" + drinkName;
     var wikiLinkEl = document.createElement("a");
 
     fetch(apiUrl).then(function (response) {
@@ -128,7 +130,7 @@ function displayDrinkCard(drink) {
             response.json().then(function (data) {
                 wikiLinkEl.innerHTML = "Wikipedia Link: " + data.query.search[0].title;
                 wikiLinkEl.setAttribute('href', "https://en.wikipedia.org/wiki/" + data.query.search[0].title);
-                wikiLinkEl.setAttribute("target","_blank");
+                wikiLinkEl.setAttribute("target", "_blank");
             });
         }
     });
@@ -154,7 +156,9 @@ function formSubmitHandler(event) {
 
     getDrinkList(ingredientString);
     ingredientInputEl.value = "";
-}
+    errorEl.textContent = "";
+
+};
 
 // Event listeners
 ingredientFormEl.addEventListener("submit", formSubmitHandler);
