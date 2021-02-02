@@ -8,3 +8,11 @@
     cursor: pointer;
     color: white;
 }
+
+/* Media Queries */
+@media screen and (max-width: 770px){
+    .switch {
+        flex-direction: column-reverse;
+        display:flex;
+    }
+}
