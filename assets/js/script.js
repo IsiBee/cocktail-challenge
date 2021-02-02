@@ -5,6 +5,58 @@ var drinkCardEl = document.querySelector("#drink-card");
 
 var errorEl = document.querySelector("#error");
 
+// generate save cards
+
+function generateSaveCards() {
+    // Clear saved Cards
+    var saveContainerEl = document.querySelector('#saved-drinks');
+    saveContainerEl.innerHTML = "";
+
+    // Saved Drink Header
+
+    var saveCardHeader = document.createElement("h3");
+    saveCardHeader.innerHTML = "<b>Saved Drinks:</b>";
+    saveContainerEl.appendChild(saveCardHeader);
+
+    // Search 3
+
+    var testSave_3 = localStorage.getItem("savedDrink_3");
+    if (testSave_3 != undefined) {
+        var saveContainerEl = document.querySelector('#saved-drinks');
+        var saveCard_3 = document.createElement("div");
+        saveCard_3.innerHTML = testSave_3;
+        $(saveCard_3).addClass("saveCard");
+        saveCard_3.setAttribute("data-drink-id", localStorage.getItem("savedDrink_3.id"));
+        saveContainerEl.appendChild(saveCard_3);
+    };
+
+    // Search 2
+
+    var testSave_2 = localStorage.getItem("savedDrink_2");
+    if (testSave_2 != undefined) {
+        var saveContainerEl = document.querySelector('#saved-drinks');
+        var saveCard_2 = document.createElement("div");
+        saveCard_2.innerHTML = testSave_2;
+        $(saveCard_2).addClass("saveCard");
+        saveCard_2.setAttribute("data-drink-id", localStorage.getItem("savedDrink_2.id"));
+        saveContainerEl.appendChild(saveCard_2);
+    };
+
+    // Search 1
+
+    var testSave_1 = localStorage.getItem("savedDrink_1");
+    if (testSave_1 != undefined) {
+        var saveContainerEl = document.querySelector('#saved-drinks');
+        var saveCard_1 = document.createElement("div");
+        saveCard_1.innerHTML = testSave_1;
+        $(saveCard_1).addClass("saveCard");
+        saveCard_1.setAttribute("data-drink-id", localStorage.getItem("savedDrink_1.id"));
+        saveContainerEl.appendChild(saveCard_1);
+    };
+};
+
+generateSaveCards();
+
 // get list of drinks from user entered ingredient
 
 
@@ -139,17 +191,23 @@ function displayDrinkCard(drink) {
     wikiLink.appendChild(wikiLinkEl);
     ingredients.appendChild(wikiLink);
 
-    // Saves drink name to local storage
+    // Saves drink name and id to local storage
     function saveDrink() {
         var save2Test = localStorage.getItem("savedDrink_2");
         if (save2Test != undefined) {
             localStorage.setItem("savedDrink_3", save2Test);
+            localStorage.setItem("savedDrink_3.id", localStorage.getItem("savedDrink_2.id"));
         }
         var save1Test = localStorage.getItem("savedDrink_1");
         if (save1Test != undefined) {
             localStorage.setItem("savedDrink_2", save1Test);
+            localStorage.setItem("savedDrink_2.id", localStorage.getItem("savedDrink_1.id"));
         }
         localStorage.setItem("savedDrink_1", drink.strDrink);
+        localStorage.setItem("savedDrink_1.id", drink.idDrink);
+        // clear saved cards
+
+        generateSaveCards();
     };
 
     // create and add save button
@@ -184,3 +242,6 @@ function formSubmitHandler(event) {
 
 // Event listeners
 ingredientFormEl.addEventListener("submit", formSubmitHandler);
+$(document).on('click', '.saveCard', getDrink);
+
+
