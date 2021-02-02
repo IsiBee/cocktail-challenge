@@ -1,43 +1,22 @@
 var ingredientFormEl = document.querySelector("#ingredient-form");
 var ingredientInputEl = document.querySelector("#entered-ingredient");
 var drinkListEl = document.querySelector("#list-of-drinks");
-
 var drinkCardEl = document.querySelector("#drink-card");
 
 // get list of drinks from user entered ingredient
 
+
 function getDrinkList(ingredient) {
     var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + ingredient;
 
-    // $.get(apiUrl)
-    //     .then(displayDrinkList)
-    //     .catch(function (err) {
-    //         console.warn(err)
-            $(".modal-button").on("submit", function() {
-                var target = $(this).data("target");
-                $("html").addClass("is-clipped");
-                $(target).addClass("is-active");
-             });
-             
-             $(".modal-close").click(function() {
-                $("html").removeClass("is-clipped");
-                $(this).parent().removeClass("is-active");
-             });
-             });
-    fetch(apiUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                displayDrinkList(data);
-            });
-        }
-        else {
-            console.log("Error");
-        }
-    })
-        .catch(
-            console.log("Error")
-        );
+    $.get(apiUrl)
+        .then(displayDrinkList)
+        .catch(function (err) {
+            var error = document.getElementById("error")
 
+                error.innerHTML = "<span style='color: red;'>"+ 
+                        "Please enter a valid Ingredient. </span>" 
+        });
 };
 
 // Display list of drinks to the page
@@ -51,12 +30,14 @@ function displayDrinkList(drinkList) {
         drinkEl.classList.add("panel-block");
 
         drinkEl.textContent = DRINKS[i].strDrink;
+        
         drinkListEl.appendChild(drinkEl);
-
         drinkEl.setAttribute("data-drink-id", DRINKS[i].idDrink);
         drinkEl.addEventListener("click", getDrink);
     }
 };
+
+
 
 function getDrink() {
     var id = this.getAttribute("data-drink-id");
@@ -169,6 +150,8 @@ function formSubmitHandler(event) {
 
     getDrinkList(ingredientString);
     ingredientInputEl.value = "";
+    error.innerHTML ="";
+
 }
 
 // Event listeners
