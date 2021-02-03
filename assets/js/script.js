@@ -15,7 +15,7 @@ function generateSaveCards() {
     // Saved Drink Header
 
     var saveCardHeader = document.createElement("h3");
-    saveCardHeader.innerHTML = "<b>Saved Drinks:</b>";
+    saveCardHeader.innerHTML = "<strong>Your Saved Drinks:</strong>";
     saveContainerEl.appendChild(saveCardHeader);
 
     // Search 3
@@ -129,7 +129,6 @@ function displayDrinkCard(drink) {
     // Pulls the Image of the drink from the drink object
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
-    imageEl.setAttribute("width", "400px");
     imageEl.classList = "content card-image image column is-one-third is-hidden-mobile";
 
     recipeEl.appendChild(imageEl);
@@ -212,9 +211,9 @@ function displayDrinkCard(drink) {
 
     // create and add save button
     var saveBtn = document.createElement("button");
-    saveBtn.innerHTML = "Save Drink";
-    saveBtn.classList.add("saveBtn");
-    ingredients.appendChild(saveBtn);
+    saveBtn.innerHTML = "<i class='fas fa-plus mr-2'></i>Save Drink";
+    saveBtn.classList = "saveBtn button is-primary is-light";
+    headerEl.appendChild(saveBtn);
 
     saveBtn.addEventListener("click", saveDrink);
 
