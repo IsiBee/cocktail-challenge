@@ -127,11 +127,18 @@ function displayDrinkCard(drink) {
     recipeEl.classList = "card-content columns";
 
     // Pulls the Image of the drink from the drink object
+    var imageDiv = document.createElement("div");
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
+<<<<<<< HEAD
     imageEl.classList = "content card-image image column is-one-third is-hidden-mobile";
+=======
+    imageDiv.classList = "column one-third"
+    imageEl.classList = "content card-image image tile is-child is-hidden-mobile";
+>>>>>>> bug/image-stretch
 
-    recipeEl.appendChild(imageEl);
+    imageDiv.appendChild(imageEl);
+    recipeEl.appendChild(imageDiv);
 
     // Pull the Ingredients from the drink object
     // Pull the Measurements from the drink object
