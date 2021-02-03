@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    <title>Happy Hour</title>
+</head>
+
+<body>
+    <header class="container columns">
+        <div class="column is-4">
+            <div class="px-5 notification is-dark">
+                <p class="title">Welcome to Happy Hour</p>
+                <p>Make the most of the liquor in your cabinet and those virtual happy hours. Impress your team with
+                    information about your newfound cocktail.</p>
+            </div>
+    </header>
+
+    <section class="container columns switch">
+        <div class="column is-one-third">
+            <form class="panel" id="ingredient-form">
+                <div class="panel-block">
+                    <div class="control has-icons-left">
+                        <input id="entered-ingredient" class="input is-info" type="text" placeholder="Enter Ingredient">
+                        <span class="icon is-left">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <button class="button is-info is-light" type="submit">Search</button>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <div id="list-of-drinks"></div>
+                    <span id="error" style="color:red;"></span>
+                </div>
+            </form>
+        </div>
+        <div class="column is-two-thirds sticky">
+            <div id="drink-card" class="card is-hidden sticky">
+            </div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/ca89a4b9f5.js" crossorigin="anonymous"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>

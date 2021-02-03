@@ -1,0 +1,18 @@
+.sticky {
+    position: sticky;
+    top: 20px;
+}
+
+.hover-color:hover{
+    background-color: #98BBD2;
+    cursor: pointer;
+    color: white;
+}
+
+/* Media Queries */
+@media screen and (max-width: 770px){
+    .switch {
+        flex-direction: column-reverse;
+        display:flex;
+    }
+}
