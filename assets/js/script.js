@@ -10,14 +10,13 @@ var errorEl = document.querySelector("#error");
 function generateSaveCards() {
     // Clear saved Cards
     var saveContainerEl = document.querySelector('#saved-drinks');
-    //saveContainerEl.classList = "level";
     saveContainerEl.innerHTML = "";
 
     // Saved Drink Header
 
     var saveCardHeader = document.createElement("h3");
     saveCardHeader.classList = "subtitle";
-    saveCardHeader.innerHTML = "<strong>Your Saved Drinks:</strong>";
+    saveCardHeader.innerHTML = "<strong>Your Top 3 Saved Drinks:</strong>";
     saveContainerEl.appendChild(saveCardHeader);
 
     // Save Drink Content
@@ -31,10 +30,11 @@ function generateSaveCards() {
         var saveCard_3 = document.createElement("div");
         var image_3 = document.createElement("img");
 
-        saveCard_3.innerHTML = testSave_3;
+        saveCard_3.innerHTML = "<strong>" + testSave_3 + "</strong>";
 
         $(saveCard_3).addClass("saveCard tile is-child");
-        $(image_3).addClass("image is-96x96");
+        $(image_3).addClass("image is-96x96 pt-1 thumbnail");
+
         saveCard_3.setAttribute("data-drink-id", localStorage.getItem("savedDrink_3.id"));
         image_3.setAttribute("src",(localStorage.getItem("savedDrink_3.image")+ "/preview"));
 
@@ -49,10 +49,10 @@ function generateSaveCards() {
         var saveCard_2 = document.createElement("div");
         var image_2 = document.createElement("img");
 
-        saveCard_2.innerHTML = testSave_2;
+        saveCard_2.innerHTML = "<strong>" + testSave_2 + "</strong>";
 
         $(saveCard_2).addClass("saveCard tile is-child");
-        $(image_2).addClass("image is-96x96");
+        $(image_2).addClass("image is-96x96 pt-1 thumbnail");
 
         saveCard_2.setAttribute("data-drink-id", localStorage.getItem("savedDrink_2.id"));
         image_2.setAttribute("src",(localStorage.getItem("savedDrink_2.image")+ "/preview"));
@@ -68,10 +68,10 @@ function generateSaveCards() {
         var saveCard_1 = document.createElement("div");
         var image_1 = document.createElement("img");
 
-        saveCard_1.innerHTML = testSave_1;
+        saveCard_1.innerHTML = "<strong>" + testSave_1 + "</strong>";
 
         $(saveCard_1).addClass("saveCard tile is-child");
-        $(image_1).addClass("image is-96x96");
+        $(image_1).addClass("image is-96x96 pt-1 thumbnail");
 
         saveCard_1.setAttribute("data-drink-id", localStorage.getItem("savedDrink_1.id"));
         image_1.setAttribute("src",(localStorage.getItem("savedDrink_1.image")+ "/preview"));
