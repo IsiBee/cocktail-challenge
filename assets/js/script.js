@@ -15,6 +15,7 @@ function generateSaveCards() {
     // Saved Drink Header
 
     var saveCardHeader = document.createElement("h3");
+    saveCardHeader.classList = "subtitle"
     saveCardHeader.innerHTML = "<strong>Your Saved Drinks:</strong>";
     saveContainerEl.appendChild(saveCardHeader);
 
@@ -120,31 +121,83 @@ function displayDrinkCard(drink) {
     // Pulls the name of the drink from the drink object
     var headerEl = document.createElement("div");
     headerEl.textContent = drink.strDrink;
-    headerEl.classList = "card-header-title card-header"
+    headerEl.classList = "card-header-title card-header drink-title"
 
     // Create card content div element
     var recipeEl = document.createElement("div");
     recipeEl.classList = "card-content columns";
 
-    // Pulls the Image of the drink from the drink object
+    // Pulls the Image of the drink from the drink object using a helper function
+    recipeEl.appendChild(getImage(drink));
+
+    // Pull the Ingredients + Measurements from the drink object using a helper function
+    var textEl = document.createElement("div");
+    textEl.innerHTML = "";
+    textEl.classList = "content column";
+    textEl.appendChild(getIngredients(drink));
+
+    // Pull the Instructions from the drink object
+    var instructionsEl = document.createElement("p");
+    instructionsEl.classList.add("pt-5");
+    instructionsEl.innerHTML = "<strong>Instructions: </strong>" + drink.strInstructions;
+
+    textEl.appendChild(instructionsEl);
+
+    // Fetch Wiki Data
+    var wikiLink = getArticle(drink);
+    textEl.appendChild(wikiLink);
+
+    // create and add save button
+    var saveBtn = document.createElement("button");
+    saveBtn.innerHTML = "<i class='fas fa-plus mr-2'></i>Save Drink";
+    saveBtn.classList = "saveBtn button is-primary is-light";
+    headerEl.appendChild(saveBtn);
+
+    saveBtn.addEventListener("click", saveDrink);
+
+    // Saves drink name and id to local storage
+    function saveDrink() {
+        var save2Test = localStorage.getItem("savedDrink_2");
+        if (save2Test != undefined) {
+            localStorage.setItem("savedDrink_3", save2Test);
+            localStorage.setItem("savedDrink_3.id", localStorage.getItem("savedDrink_2.id"));
+        }
+        var save1Test = localStorage.getItem("savedDrink_1");
+        if (save1Test != undefined) {
+            localStorage.setItem("savedDrink_2", save1Test);
+            localStorage.setItem("savedDrink_2.id", localStorage.getItem("savedDrink_1.id"));
+        }
+        localStorage.setItem("savedDrink_1", drink.strDrink);
+        localStorage.setItem("savedDrink_1.id", drink.idDrink);
+        // clear saved cards
+
+        generateSaveCards();
+    };
+
+    // Display elements to the screen
+    recipeEl.appendChild(textEl);
+    // Display elements to the screen
+    drinkCardEl.appendChild(headerEl);
+    drinkCardEl.appendChild(recipeEl);
+
+};
+
+function getImage(drink){
     var imageDiv = document.createElement("div");
+    imageDiv.classList = "column one-third"
+    
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
-<<<<<<< HEAD
-    imageEl.classList = "content card-image image column is-one-third is-hidden-mobile";
-=======
-    imageDiv.classList = "column one-third"
     imageEl.classList = "content card-image image tile is-child is-hidden-mobile";
->>>>>>> bug/image-stretch
 
     imageDiv.appendChild(imageEl);
-    recipeEl.appendChild(imageDiv);
 
-    // Pull the Ingredients from the drink object
-    // Pull the Measurements from the drink object
+    return imageDiv;
+};
+
+function getIngredients(drink){
     var ingredients = document.createElement("div");
-    ingredients.innerHTML = "";
-    ingredients.classList = "content column";
+
     ingredients.innerHTML = "<strong>Ingredients: </strong>"
 
     for (var i = 1; i < 16; i++) {
@@ -169,15 +222,12 @@ function displayDrinkCard(drink) {
 
             ingredients.appendChild(ingredientEl);
         }
-    }
+    };
+    return ingredients;
+};
 
-    // Pull the Instructions from the drink object
-    var instructionsEl = document.createElement("p");
-    instructionsEl.innerHTML = "<strong>Instructions: </strong>" + drink.strInstructions;
-
-    ingredients.appendChild(instructionsEl);
-
-    // Fetch Wiki Data
+// Gets the wiki article for the drink card
+function getArticle(drink) {
     var wikiLink = document.createElement("div");
     wikiLink.innerHTML = "";
     var drinkName = drink.strDrink;
@@ -193,44 +243,11 @@ function displayDrinkCard(drink) {
             });
         }
     });
-
     wikiLink.appendChild(wikiLinkEl);
-    ingredients.appendChild(wikiLink);
-
-    // Saves drink name and id to local storage
-    function saveDrink() {
-        var save2Test = localStorage.getItem("savedDrink_2");
-        if (save2Test != undefined) {
-            localStorage.setItem("savedDrink_3", save2Test);
-            localStorage.setItem("savedDrink_3.id", localStorage.getItem("savedDrink_2.id"));
-        }
-        var save1Test = localStorage.getItem("savedDrink_1");
-        if (save1Test != undefined) {
-            localStorage.setItem("savedDrink_2", save1Test);
-            localStorage.setItem("savedDrink_2.id", localStorage.getItem("savedDrink_1.id"));
-        }
-        localStorage.setItem("savedDrink_1", drink.strDrink);
-        localStorage.setItem("savedDrink_1.id", drink.idDrink);
-        // clear saved cards
-
-        generateSaveCards();
-    };
-
-    // create and add save button
-    var saveBtn = document.createElement("button");
-    saveBtn.innerHTML = "<i class='fas fa-plus mr-2'></i>Save Drink";
-    saveBtn.classList = "saveBtn button is-primary is-light";
-    headerEl.appendChild(saveBtn);
-
-    saveBtn.addEventListener("click", saveDrink);
-
-    // Display elements to the screen
-    recipeEl.appendChild(ingredients);
-    // Display elements to the screen
-    drinkCardEl.appendChild(headerEl);
-    drinkCardEl.appendChild(recipeEl);
-
+    return wikiLink;
 };
+
+
 
 
 // What to do on button click
