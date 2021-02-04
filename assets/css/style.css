@@ -1,3 +1,7 @@
+.saveCard:hover{
+    cursor: pointer;
+    color: skyblue;
+}
 .sticky {
     position: sticky;
     top: 20px;

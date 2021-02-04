@@ -10,14 +10,19 @@ var errorEl = document.querySelector("#error");
 function generateSaveCards() {
     // Clear saved Cards
     var saveContainerEl = document.querySelector('#saved-drinks');
+    //saveContainerEl.classList = "level";
     saveContainerEl.innerHTML = "";
 
     // Saved Drink Header
 
     var saveCardHeader = document.createElement("h3");
-    saveCardHeader.classList = "subtitle"
+    saveCardHeader.classList = "subtitle";
     saveCardHeader.innerHTML = "<strong>Your Saved Drinks:</strong>";
     saveContainerEl.appendChild(saveCardHeader);
+
+    // Save Drink Content
+    var saveCardContent = document.createElement("div");
+    saveCardContent.classList = "level";
 
     // Search 3
 
@@ -26,9 +31,9 @@ function generateSaveCards() {
         var saveContainerEl = document.querySelector('#saved-drinks');
         var saveCard_3 = document.createElement("div");
         saveCard_3.innerHTML = testSave_3;
-        $(saveCard_3).addClass("saveCard");
+        $(saveCard_3).addClass("saveCard tile is-child");
         saveCard_3.setAttribute("data-drink-id", localStorage.getItem("savedDrink_3.id"));
-        saveContainerEl.appendChild(saveCard_3);
+        saveCardContent.appendChild(saveCard_3);
     };
 
     // Search 2
@@ -38,9 +43,9 @@ function generateSaveCards() {
         var saveContainerEl = document.querySelector('#saved-drinks');
         var saveCard_2 = document.createElement("div");
         saveCard_2.innerHTML = testSave_2;
-        $(saveCard_2).addClass("saveCard");
+        $(saveCard_2).addClass("saveCard tile is-child");
         saveCard_2.setAttribute("data-drink-id", localStorage.getItem("savedDrink_2.id"));
-        saveContainerEl.appendChild(saveCard_2);
+        saveCardContent.appendChild(saveCard_2);
     };
 
     // Search 1
@@ -50,10 +55,12 @@ function generateSaveCards() {
         var saveContainerEl = document.querySelector('#saved-drinks');
         var saveCard_1 = document.createElement("div");
         saveCard_1.innerHTML = testSave_1;
-        $(saveCard_1).addClass("saveCard");
+        $(saveCard_1).addClass("saveCard tile is-child");
         saveCard_1.setAttribute("data-drink-id", localStorage.getItem("savedDrink_1.id"));
-        saveContainerEl.appendChild(saveCard_1);
+        saveCardContent.appendChild(saveCard_1);
     };
+    
+    saveContainerEl.appendChild(saveCardContent);
 };
 
 generateSaveCards();
@@ -150,7 +157,7 @@ function displayDrinkCard(drink) {
     // create and add save button
     var saveBtn = document.createElement("button");
     saveBtn.innerHTML = "<i class='fas fa-plus mr-2'></i>Save Drink";
-    saveBtn.classList = "saveBtn button is-primary is-light";
+    saveBtn.classList = "saveBtn button is-info is-light";
     headerEl.appendChild(saveBtn);
 
     saveBtn.addEventListener("click", saveDrink);
@@ -182,10 +189,10 @@ function displayDrinkCard(drink) {
 
 };
 
-function getImage(drink){
+function getImage(drink) {
     var imageDiv = document.createElement("div");
     imageDiv.classList = "column one-third"
-    
+
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
     imageEl.classList = "content card-image image tile is-child is-hidden-mobile";
@@ -195,7 +202,7 @@ function getImage(drink){
     return imageDiv;
 };
 
-function getIngredients(drink){
+function getIngredients(drink) {
     var ingredients = document.createElement("div");
 
     ingredients.innerHTML = "<strong>Ingredients: </strong>"
@@ -230,18 +237,31 @@ function getIngredients(drink){
 function getArticle(drink) {
     var wikiLink = document.createElement("div");
     wikiLink.innerHTML = "";
+    wikiLink.classList = "card-footer";
+
     var drinkName = drink.strDrink;
     var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&gsrnamespace=0&gsrlimit=1&srsearch=" + drinkName;
     var wikiLinkEl = document.createElement("a");
+    wikiLinkEl.classList = "card-footer-item";
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
-                wikiLinkEl.innerHTML = "Wikipedia Link: " + data.query.search[0].title;
-                wikiLinkEl.setAttribute('href', "https://en.wikipedia.org/wiki/" + data.query.search[0].title);
-                wikiLinkEl.setAttribute("target", "_blank");
+            response.json().then(function(data) {
+                if (data.query.search[0] === undefined) {
+                    wikiLinkEl.innerHTML = "We don't have information about this drink";
+                }
+                else {
+                    wikiLinkEl.innerHTML = "Learn More: " + data.query.search[0].title;
+                    wikiLinkEl.setAttribute('href', "https://en.wikipedia.org/wiki/" + data.query.search[0].title);
+                    wikiLinkEl.setAttribute("target", "_blank");
+                }
             });
         }
+        else {
+            wikiLinkEl.innerHTML = "We don't have information about this drink";
+        }
+    }).catch(function (err) {
+        wikiLinkEl.innerHTML = "We are experiencing connectivity issues with Wikipedia";
     });
     wikiLink.appendChild(wikiLinkEl);
     return wikiLink;
