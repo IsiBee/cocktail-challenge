@@ -15,10 +15,6 @@
     animation: swinging 1s ease-in-out forwards infinite;
 }
 
-img.thumbnail:hover{
-    box-shadow: 10px 5px   #ffdbac;
-}
-
 .saveCard{
     display: flex;
     flex-direction: column;
