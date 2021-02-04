@@ -28,11 +28,17 @@ function generateSaveCards() {
 
     var testSave_3 = localStorage.getItem("savedDrink_3");
     if (testSave_3 != undefined) {
-        var saveContainerEl = document.querySelector('#saved-drinks');
         var saveCard_3 = document.createElement("div");
+        var image_3 = document.createElement("img");
+
         saveCard_3.innerHTML = testSave_3;
+
         $(saveCard_3).addClass("saveCard tile is-child");
+        $(image_3).addClass("image is-96x96");
         saveCard_3.setAttribute("data-drink-id", localStorage.getItem("savedDrink_3.id"));
+        image_3.setAttribute("src",(localStorage.getItem("savedDrink_3.image")+ "/preview"));
+
+        saveCard_3.appendChild(image_3);
         saveCardContent.appendChild(saveCard_3);
     };
 
@@ -40,11 +46,18 @@ function generateSaveCards() {
 
     var testSave_2 = localStorage.getItem("savedDrink_2");
     if (testSave_2 != undefined) {
-        var saveContainerEl = document.querySelector('#saved-drinks');
         var saveCard_2 = document.createElement("div");
+        var image_2 = document.createElement("img");
+
         saveCard_2.innerHTML = testSave_2;
+
         $(saveCard_2).addClass("saveCard tile is-child");
+        $(image_2).addClass("image is-96x96");
+
         saveCard_2.setAttribute("data-drink-id", localStorage.getItem("savedDrink_2.id"));
+        image_2.setAttribute("src",(localStorage.getItem("savedDrink_2.image")+ "/preview"));
+        
+        saveCard_2.appendChild(image_2);
         saveCardContent.appendChild(saveCard_2);
     };
 
@@ -52,11 +65,18 @@ function generateSaveCards() {
 
     var testSave_1 = localStorage.getItem("savedDrink_1");
     if (testSave_1 != undefined) {
-        var saveContainerEl = document.querySelector('#saved-drinks');
         var saveCard_1 = document.createElement("div");
+        var image_1 = document.createElement("img");
+
         saveCard_1.innerHTML = testSave_1;
+
         $(saveCard_1).addClass("saveCard tile is-child");
+        $(image_1).addClass("image is-96x96");
+
         saveCard_1.setAttribute("data-drink-id", localStorage.getItem("savedDrink_1.id"));
+        image_1.setAttribute("src",(localStorage.getItem("savedDrink_1.image")+ "/preview"));
+        
+        saveCard_1.appendChild(image_1);
         saveCardContent.appendChild(saveCard_1);
     };
     
@@ -168,14 +188,17 @@ function displayDrinkCard(drink) {
         if (save2Test != undefined) {
             localStorage.setItem("savedDrink_3", save2Test);
             localStorage.setItem("savedDrink_3.id", localStorage.getItem("savedDrink_2.id"));
+            localStorage.setItem("savedDrink_3.image", localStorage.getItem("savedDrink_2.image"));
         }
         var save1Test = localStorage.getItem("savedDrink_1");
         if (save1Test != undefined) {
             localStorage.setItem("savedDrink_2", save1Test);
             localStorage.setItem("savedDrink_2.id", localStorage.getItem("savedDrink_1.id"));
+            localStorage.setItem("savedDrink_2.image", localStorage.getItem("savedDrink_1.image"));
         }
         localStorage.setItem("savedDrink_1", drink.strDrink);
         localStorage.setItem("savedDrink_1.id", drink.idDrink);
+        localStorage.setItem("savedDrink_1.image", drink.strDrinkThumb);
         // clear saved cards
 
         generateSaveCards();
