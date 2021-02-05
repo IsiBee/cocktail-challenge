@@ -1,3 +1,26 @@
+@-webkit-keyframes swinging{
+    0%{-webkit-transform: rotate(10deg);}
+    50%{-webkit-transform: rotate(-5deg)}
+    100%{-webkit-transform: rotate(10deg);}
+}
+ 
+@keyframes swinging{
+    0%{transform: rotate(10deg);}
+    50%{transform: rotate(-5deg)}
+    100%{transform: rotate(10deg);}
+}
+ 
+.saveCard:hover{
+    -webkit-animation: swinging 1s ease-in-out forwards infinite;
+    animation: swinging 1s ease-in-out forwards infinite;
+}
+
+.saveCard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .sticky {
     position: sticky;
     top: 20px;
@@ -9,10 +32,21 @@
     color: white;
 }
 
+.drink-title{
+    display: flex;
+    justify-content: space-between;
+}
+
+
 /* Media Queries */
 @media screen and (max-width: 770px){
     .switch {
         flex-direction: column-reverse;
         display:flex;
+    }
+
+    .sticky {
+        position:relative;
+        margin-bottom: 25px;
     }
 }

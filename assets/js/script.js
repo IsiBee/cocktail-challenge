@@ -5,6 +5,86 @@ var drinkCardEl = document.querySelector("#drink-card");
 
 var errorEl = document.querySelector("#error");
 
+// generate save cards
+
+function generateSaveCards() {
+    // Clear saved Cards
+    var saveContainerEl = document.querySelector('#saved-drinks');
+    saveContainerEl.innerHTML = "";
+
+    // Saved Drink Header
+
+    var saveCardHeader = document.createElement("h3");
+    saveCardHeader.classList = "subtitle";
+    saveCardHeader.innerHTML = "<strong>Your Top 3 Saved Drinks:</strong>";
+    saveContainerEl.appendChild(saveCardHeader);
+
+    // Save Drink Content
+    var saveCardContent = document.createElement("div");
+    saveCardContent.classList = "level";
+
+    // Search 3
+
+    var testSave_3 = localStorage.getItem("savedDrink_3");
+    if (testSave_3 != undefined) {
+        var saveCard_3 = document.createElement("div");
+        var image_3 = document.createElement("img");
+
+        saveCard_3.innerHTML = "<strong>" + testSave_3 + "</strong>";
+
+        $(saveCard_3).addClass("saveCard tile is-child");
+        $(image_3).addClass("image is-96x96 pt-1 thumbnail");
+
+        saveCard_3.setAttribute("data-drink-id", localStorage.getItem("savedDrink_3.id"));
+        image_3.setAttribute("src",(localStorage.getItem("savedDrink_3.image")+ "/preview"));
+
+        saveCard_3.appendChild(image_3);
+        saveCardContent.appendChild(saveCard_3);
+    };
+
+    // Search 2
+
+    var testSave_2 = localStorage.getItem("savedDrink_2");
+    if (testSave_2 != undefined) {
+        var saveCard_2 = document.createElement("div");
+        var image_2 = document.createElement("img");
+
+        saveCard_2.innerHTML = "<strong>" + testSave_2 + "</strong>";
+
+        $(saveCard_2).addClass("saveCard tile is-child");
+        $(image_2).addClass("image is-96x96 pt-1 thumbnail");
+
+        saveCard_2.setAttribute("data-drink-id", localStorage.getItem("savedDrink_2.id"));
+        image_2.setAttribute("src",(localStorage.getItem("savedDrink_2.image")+ "/preview"));
+        
+        saveCard_2.appendChild(image_2);
+        saveCardContent.appendChild(saveCard_2);
+    };
+
+    // Search 1
+
+    var testSave_1 = localStorage.getItem("savedDrink_1");
+    if (testSave_1 != undefined) {
+        var saveCard_1 = document.createElement("div");
+        var image_1 = document.createElement("img");
+
+        saveCard_1.innerHTML = "<strong>" + testSave_1 + "</strong>";
+
+        $(saveCard_1).addClass("saveCard tile is-child");
+        $(image_1).addClass("image is-96x96 pt-1 thumbnail");
+
+        saveCard_1.setAttribute("data-drink-id", localStorage.getItem("savedDrink_1.id"));
+        image_1.setAttribute("src",(localStorage.getItem("savedDrink_1.image")+ "/preview"));
+        
+        saveCard_1.appendChild(image_1);
+        saveCardContent.appendChild(saveCard_1);
+    };
+    
+    saveContainerEl.appendChild(saveCardContent);
+};
+
+generateSaveCards();
+
 // get list of drinks from user entered ingredient
 
 
@@ -15,7 +95,7 @@ function getDrinkList(ingredient) {
         .then(displayDrinkList)
         .catch(function (err) {
             console.log("Error");
-            
+
         });
 };
 
@@ -45,7 +125,7 @@ function displayDrinkList(drinkList) {
 };
 
 
-
+// Fetches data for clicked drink
 function getDrink() {
     var id = this.getAttribute("data-drink-id");
 
@@ -60,6 +140,7 @@ function getDrink() {
     });
 };
 
+// Displays drink card for selected drink
 function displayDrinkCard(drink) {
     drinkCardEl.innerHTML = "";
     drinkCardEl.classList.remove("is-hidden");
@@ -67,25 +148,86 @@ function displayDrinkCard(drink) {
     // Pulls the name of the drink from the drink object
     var headerEl = document.createElement("div");
     headerEl.textContent = drink.strDrink;
-    headerEl.classList = "card-header-title card-header"
+    headerEl.classList = "card-header-title card-header drink-title"
 
     // Create card content div element
     var recipeEl = document.createElement("div");
     recipeEl.classList = "card-content columns";
 
-    // Pulls the Image of the drink from the drink object
+    // Pulls the Image of the drink from the drink object using a helper function
+    recipeEl.appendChild(getImage(drink));
+
+    // Pull the Ingredients + Measurements from the drink object using a helper function
+    var textEl = document.createElement("div");
+    textEl.innerHTML = "";
+    textEl.classList = "content column";
+    textEl.appendChild(getIngredients(drink));
+
+    // Pull the Instructions from the drink object
+    var instructionsEl = document.createElement("p");
+    instructionsEl.classList.add("pt-5");
+    instructionsEl.innerHTML = "<strong>Instructions: </strong>" + drink.strInstructions;
+
+    textEl.appendChild(instructionsEl);
+
+    // Fetch Wiki Data
+    var wikiLink = getArticle(drink);
+    textEl.appendChild(wikiLink);
+
+    // create and add save button
+    var saveBtn = document.createElement("button");
+    saveBtn.innerHTML = "<i class='fas fa-plus mr-2'></i>Save Drink";
+    saveBtn.classList = "saveBtn button is-info is-light";
+    headerEl.appendChild(saveBtn);
+
+    saveBtn.addEventListener("click", saveDrink);
+
+    // Saves drink name and id to local storage
+    function saveDrink() {
+        var save2Test = localStorage.getItem("savedDrink_2");
+        if (save2Test != undefined) {
+            localStorage.setItem("savedDrink_3", save2Test);
+            localStorage.setItem("savedDrink_3.id", localStorage.getItem("savedDrink_2.id"));
+            localStorage.setItem("savedDrink_3.image", localStorage.getItem("savedDrink_2.image"));
+        }
+        var save1Test = localStorage.getItem("savedDrink_1");
+        if (save1Test != undefined) {
+            localStorage.setItem("savedDrink_2", save1Test);
+            localStorage.setItem("savedDrink_2.id", localStorage.getItem("savedDrink_1.id"));
+            localStorage.setItem("savedDrink_2.image", localStorage.getItem("savedDrink_1.image"));
+        }
+        localStorage.setItem("savedDrink_1", drink.strDrink);
+        localStorage.setItem("savedDrink_1.id", drink.idDrink);
+        localStorage.setItem("savedDrink_1.image", drink.strDrinkThumb);
+        // clear saved cards
+
+        generateSaveCards();
+    };
+
+    // Display elements to the screen
+    recipeEl.appendChild(textEl);
+    // Display elements to the screen
+    drinkCardEl.appendChild(headerEl);
+    drinkCardEl.appendChild(recipeEl);
+
+};
+
+function getImage(drink) {
+    var imageDiv = document.createElement("div");
+    imageDiv.classList = "column one-third"
+
     var imageEl = document.createElement("img");
     imageEl.setAttribute("src", drink.strDrinkThumb);
-    imageEl.setAttribute("width", "400px");
-    imageEl.classList = "content card-image image column is-one-third is-hidden-mobile";
+    imageEl.classList = "content card-image image tile is-child is-hidden-mobile";
 
-    recipeEl.appendChild(imageEl);
+    imageDiv.appendChild(imageEl);
 
-    // Pull the Ingredients from the drink object
-    // Pull the Measurements from the drink object
+    return imageDiv;
+};
+
+function getIngredients(drink) {
     var ingredients = document.createElement("div");
-    ingredients.innerHTML = "";
-    ingredients.classList = "content column";
+
     ingredients.innerHTML = "<strong>Ingredients: </strong>"
 
     for (var i = 1; i < 16; i++) {
@@ -110,41 +252,45 @@ function displayDrinkCard(drink) {
 
             ingredients.appendChild(ingredientEl);
         }
-    }
+    };
+    return ingredients;
+};
 
-    // Pull the Instructions from the drink object
-    var instructionsEl = document.createElement("p");
-    instructionsEl.innerHTML = "<strong>Instructions: </strong>" + drink.strInstructions;
-
-    ingredients.appendChild(instructionsEl);
-
-    // Fetch Wiki Data
+// Gets the wiki article for the drink card
+function getArticle(drink) {
     var wikiLink = document.createElement("div");
     wikiLink.innerHTML = "";
+    wikiLink.classList = "card-footer";
+
     var drinkName = drink.strDrink;
     var apiUrl = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&gsrnamespace=0&gsrlimit=1&srsearch=" + drinkName;
     var wikiLinkEl = document.createElement("a");
+    wikiLinkEl.classList = "card-footer-item";
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
-                wikiLinkEl.innerHTML = "Wikipedia Link: " + data.query.search[0].title;
-                wikiLinkEl.setAttribute('href', "https://en.wikipedia.org/wiki/" + data.query.search[0].title);
-                wikiLinkEl.setAttribute("target", "_blank");
+            response.json().then(function(data) {
+                if (data.query.search[0] === undefined) {
+                    wikiLinkEl.innerHTML = "We don't have information about this drink";
+                }
+                else {
+                    wikiLinkEl.innerHTML = "Learn More: " + data.query.search[0].title;
+                    wikiLinkEl.setAttribute('href', "https://en.wikipedia.org/wiki/" + data.query.search[0].title);
+                    wikiLinkEl.setAttribute("target", "_blank");
+                }
             });
         }
+        else {
+            wikiLinkEl.innerHTML = "We don't have information about this drink";
+        }
+    }).catch(function (err) {
+        wikiLinkEl.innerHTML = "We are experiencing connectivity issues with Wikipedia";
     });
-
     wikiLink.appendChild(wikiLinkEl);
-    ingredients.appendChild(wikiLink);
-
-    // Display elements to the screen
-    recipeEl.appendChild(ingredients);
-    // Display elements to the screen
-    drinkCardEl.appendChild(headerEl);
-    drinkCardEl.appendChild(recipeEl);
-
+    return wikiLink;
 };
+
+
 
 
 // What to do on button click
@@ -162,3 +308,6 @@ function formSubmitHandler(event) {
 
 // Event listeners
 ingredientFormEl.addEventListener("submit", formSubmitHandler);
+$(document).on('click', '.saveCard', getDrink);
+
+
